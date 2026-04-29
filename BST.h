@@ -23,62 +23,62 @@ class BST {
    private:
       appointment *root;
 
-      void insert(appointment *& nodeptr, appointment *& newNode) {
-         if (nodeptr == NULL) {
-            nodeptr = newNode;
+      void insert(appointment *& first_appoint, appointment *& new_appoint) {
+         if (first_appoint == NULL) {
+            first_appoint = new_appoint;
          }
-         else if (newNode->priority_level < nodeptr->priority_level) {
-            insert(nodeptr->left, newNode);
-         }
-         else {
-            insert(nodeptr->right, newNode);
-         }
-      }
-      void cancel_app(int num, appointment *& nodeptr) {
-         if (nodeptr->priority_level > num) {
-            cancel_app(num, nodeptr->right);
-         }
-         else if (nodeptr->priority_level < num) {
-            cancel_app(num, nodeptr->left);
+         else if (new_appoint->priority_level < first_appoint->priority_level) {
+            insert(first_appoint->left, new_appoint);
          }
          else {
-            make_deletion(nodeptr);
+            insert(first_appoint->right, new_appoint);
          }
       }
-      void make_deletion(appointment *& nodeptr) {
+      void cancel_appoint(int num, appointment *& appoint) {
+         if (appoint->priority_level > num) {
+            cancel_appoint(num, appoint->right);
+         }
+         else if (appoint->priority_level < num) {
+            cancel_appoint(num, appoint->left);
+         }
+         else {
+            make_deletion(appoint);
+         }
+      }
+      void make_deletion(appointment *& appoint) {
 
-         appointment *temp_Node = new appointment;
+         appointment *temp_appoint = new appointment;
 
 
-         if (nodeptr == nullptr) {
+         if (appoint == nullptr) {
             cout << "cannot delete empty appointment" << endl;
          }
-         else if (nodeptr->right == nullptr) {
-            temp_Node = nodeptr;
-            nodeptr = nodeptr->left;
-            temp_Node = nullptr;
+         else if (appoint->right == nullptr) {
+            temp_appoint = appoint;
+            appoint = appoint->left;
+            temp_appoint = nullptr;
          }
-         else if (nodeptr->left == nullptr) {
-            temp_Node = nodeptr;
-            nodeptr = nodeptr->right;
-            temp_Node = nullptr;
+         else if (appoint->left == nullptr) {
+            temp_appoint = appoint;
+            appoint = appoint->right;
+            temp_appoint = nullptr;
          }
          else {
-            temp_Node =nodeptr->right;
-            while (temp_Node->left) {
-               temp_Node = temp_Node->left;
+            temp_appoint = appoint->right;
+            while (temp_appoint->left) {
+               temp_appoint = temp_appoint->left;
             }
-            temp_Node->left = nodeptr->left;
-            temp_Node = nodeptr;
-            nodeptr = nodepyt->right;
-            delete temp_Node;
+            temp_appoint->left = appoint->left;
+            temp_appoint = appoint;
+            appoint = appoint->right;
+            delete temp_appoint;
          }
       }
 
 
 
    public:
-      void insert_app(int num) {
+      void insert_appoint(int num) {
          appointment * newNode = nullptr;
          newNode = new appointment;
 
@@ -88,8 +88,8 @@ class BST {
          insert(root, newNode);
       }
 
-      void cancel(int num) {
-         cancel_app(num, root)
+      void cancel_appoint(int num) {
+         cancel_appoint(num, root);
       }
 
       void pre_order(appointment *r){};
