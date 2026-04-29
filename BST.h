@@ -92,9 +92,60 @@ class BST {
          cancel_appoint(num, root);
       }
 
-      void pre_order(appointment *r){};
-      void post_order(appointment *r){};
-      void in_order(appointment *r){};
+      void pre_order(appointment *r)
+      {
+         if (r == nullptr)
+            return nullptr;
+         else
+         {
+            cout<<"["<<r->patient_name<<", " <<r->priority_level<<", "<< r->medical_department << "]" <<endl;
+            pre_order(r->left);
+            pre_order(r->right);
+         }
+      };
+      void post_order(appointment *r)
+      {
+         if (r ==nullptr)
+            return nullptr;
+         else
+         {
+            post_order(r->left);
+            post_order(r->right);
+            cout<<"["<<r->patient_name<<", " <<r->priority_level<<", "<< r->medical_department << "]" <<endl;
+         }
+      }
+      void in_order(appointment *r)
+      {
+         if (r == nullptr)
+            return nullptr;
+         else
+         {
+            in_order(r->left);
+            cout<<"["<<r->patient_name<<", " <<r->priority_level<<", "<< r->medical_department << "]" <<endl;
+            in_order(r->left);
+
+         }
+
+      }
+   appointment* Search(appointment* r, int key)
+      {
+         if (r == nullptr)
+            return nullptr;
+         else if (r->priority_level == key)
+            return r;
+         else if (key < r->priority_level)
+            return Search(r->left, key);
+         else
+            return Search(r->right, key);
+      }
+   bool Search(int key)
+      {
+         appointment* result = Search(root, key);
+         if (result==nullptr)
+            return false;
+         else
+            return true;
+      }
 
 };
 
