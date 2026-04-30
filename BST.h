@@ -105,30 +105,6 @@ class BST {
 
 
 
-      /*void pre_order(appointment *r)
-      {
-         if (r == nullptr)
-            return nullptr;
-         else
-         {
-            cout<<"["<<r->patient_name<<", " <<r->priority_level<<", "<< r->medical_department << "]" <<endl;
-            pre_order(r->left);
-            pre_order(r->right);
-         }
-      };*/
-      /*void post_order(appointment *r)
-      {
-         if (r ==nullptr)
-            return nullptr;
-         else
-         {
-            post_order(r->left);
-            post_order(r->right);
-            cout<<"["<<r->patient_name<<", " <<r->priority_level<<", "<< r->medical_department << "]" <<endl;
-         }
-      }*/
-
-
 
       void display_all(appointment *r){ //in order
          if (r == nullptr) {
@@ -169,20 +145,24 @@ class BST {
 
             display_less_urgent(r->right, num);
       }
-
-
-
-      appointment* Search(appointment* r, int key){
+   void search_all(appointment *r, int key) {
          if (r == nullptr)
-            return nullptr;
-         else if (r->priority_level == key)
-            return r;
-         else if (key <= r->priority_level)
-            return Search(r->left, key);
-         else
-            return Search(r->right, key);
+            return;
+
+         if (key <= r->priority_level)
+            search_all(r->left, key);
+
+         if (r->priority_level == key)
+            cout << "[" << r->patient_name << ", "
+                 << r->priority_level << ", "
+                 << r->medical_department << "]" << endl;
+
+         if (key >= r->priority_level)
+            search_all(r->right, key);
       }
-   
+
+
+
 
       appointment* Searching_appoint(int key){
 
@@ -198,7 +178,6 @@ class BST {
       }
 
 };
-
 
 
 
