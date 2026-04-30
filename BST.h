@@ -12,10 +12,6 @@ class appointment {
       string medical_department;
       appointment *left;
       appointment *right;
-      /*appointment() {
-         left = NULL;
-         right = NULL;
-      */
 };
 
 
@@ -24,10 +20,10 @@ class BST {
       appointment *root;
 
       void insert(appointment *& first_appoint, appointment *& new_appoint) {
-         if (first_appoint == NULL) {
+         if (first_appoint == nullptr) {
             first_appoint = new_appoint;
          }
-         else if (new_appoint->priority_level < first_appoint->priority_level) {
+         else if (new_appoint->priority_level <= first_appoint->priority_level) {
             insert(first_appoint->left, new_appoint);
          }
          else {
@@ -36,15 +32,15 @@ class BST {
       }
 
 
-      void cancel_appoint(int num, appointment *& appoint) {
-         if (appoint->priority_level > num) {
-            cancel_appoint(num, appoint->right);
-         }
-         else if (appoint->priority_level < num) {
-            cancel_appoint(num, appoint->left);
-         }
-         else {
-            make_deletion(appoint);
+      void cancel_appoint(int num, appointment *& appoint, bool &flag) {
+         if (appoint) {
+            display_all(appoint->left);
+            display_all(appoint->right);
+            if (appoint->priority_level == num) {
+               flag = true;
+               cout<<"Cancelling appointment: ["<<appoint->patient_name<<", " <<appoint->priority_level<<", "<< appoint->medical_department << "]" <<endl;
+               make_deletion(appoint);
+            }
          }
       }
 
@@ -52,8 +48,6 @@ class BST {
       void make_deletion(appointment *& appoint) {
 
          appointment *temp_appoint = nullptr;
-         temp_appoint = new appointment;
-
 
          if (appoint == nullptr) {
             cout << "cannot delete empty appointment" << endl;
@@ -80,9 +74,61 @@ class BST {
          }
       }
 
+      void display_all(appointment *r){ //in order
+         if (r) {
+            display_all(r->left);
+            cout<<"["<<r->patient_name<<", " <<r->priority_level<<", "<< r->medical_department << "]" <<endl;
+            display_all(r->right);
+         }
+      }
 
+      void display_more_urgent(appointment* r, int num, bool &flag){
+         if (r) {
+            display_more_urgent(r->left, num, flag);
+            if (r->priority_level <= num) {
+               flag = true;
+               cout << "[" << r->patient_name << ", "
+                    << r->priority_level << ", "
+                    << r->medical_department << "]" << endl;
+            }
+            display_more_urgent(r->right, num, flag);
+         }
+      }
+
+      void display_less_urgent(appointment* r, int num, bool &flag){
+         if (r) {
+            display_less_urgent(r->left, num, flag);
+            if (r->priority_level >= num)
+               flag = true;
+               cout << "[" << r->patient_name << ", "
+                    << r->priority_level << ", "
+                    << r->medical_department << "]" << endl;
+            display_less_urgent(r->right, num, flag);
+         }
+      }
+
+
+      void search_all(appointment *r, int key, bool &flag) {
+         if (r == nullptr)
+            return;
+
+         if (key <= r->priority_level)
+            search_all(r->left, key, flag);
+
+         if (r->priority_level == key) {
+            flag = true;
+            cout<<"["<<r->patient_name<<", " <<r->priority_level<<", "<< r->medical_department << "]" <<endl;
+         }
+         if (key >= r->priority_level)
+            search_all(r->right, key, flag);
+      }
 
    public:
+
+      BST() {
+         root = nullptr;
+      }
+
       void insert_appoint(int num , string n, string dep) {
          appointment * new_appoint = nullptr;
          new_appoint = new appointment;
@@ -98,87 +144,63 @@ class BST {
 
 
       void cancel_appoint(int num) {
-         while (Searching_appoint(num) != nullptr) {
-            cancel_appoint(num, root);
-         }
-      }
-
-
-
-
-      void display_all(appointment *r){ //in order
-         if (r == nullptr) {
+         if (root == nullptr) {
+            cout << "No appointments in system to cancel" << endl;
             return;
          }
-         else{
-            display_all(r->left);
-            cout<<"["<<r->patient_name<<", " <<r->priority_level<<", "<< r->medical_department << "]" <<endl;
-            display_all(r->right);
+         bool found = false;
+         cancel_appoint(num, root, found);
+         if (found != true) {
+            cout << "No appointment found with priority: " << num << endl;
          }
       }
 
-
-      void display_more_urgent(appointment* r, int num){
-            if (r == nullptr) return;
-
-            display_more_urgent(r->left, num);
-
-            if (r->priority_level <= num)
-               cout << "[" << r->patient_name << ", "
-                    << r->priority_level << ", "
-                    << r->medical_department << "]" << endl;
-
-            display_more_urgent(r->right, num);
-         }
-
-
-
-      void display_less_urgent(appointment* r, int num){
-            if (r == nullptr) return;
-
-            display_less_urgent(r->left, num);
-
-            if (r->priority_level >= num)
-               cout << "[" << r->patient_name << ", "
-                    << r->priority_level << ", "
-                    << r->medical_department << "]" << endl;
-
-            display_less_urgent(r->right, num);
-      }
-   void search_all(appointment *r, int key) {
-         if (r == nullptr)
+      void display_all() {
+         if (root == nullptr) {
+            cout << "No appointments in system to display" << endl;
             return;
+         }
+         display_all(root);
+      }
 
-         if (key <= r->priority_level)
-            search_all(r->left, key);
+      void display_more_urgent(int num) {
+         if (root == nullptr) {
+            cout << "No appointments in system to display" << endl;
+            return;
+         }
+         bool found = false;
+         display_more_urgent(root, num, found);
+         if (found != true) {
+            cout << "No appointment found with priority level more urgent than: " << num << endl;
+         }
+      }
 
-         if (r->priority_level == key)
-            cout << "[" << r->patient_name << ", "
-                 << r->priority_level << ", "
-                 << r->medical_department << "]" << endl;
+      void display_less_urgent(int num) {
+         if (root == nullptr) {
+            cout << "No appointments in system to display" << endl;
+            return;
+         }
+         bool found = false;
+         display_less_urgent(root, num, found);
 
-         if (key >= r->priority_level)
-            search_all(r->right, key);
+         if (found != true) {
+            cout << "No appointment found with priority level less urgent than: " << num << endl;
+         }
       }
 
 
 
-
-      appointment* Searching_appoint(int key){
-
-         appointment* result = Search(root, key);
-         if (result==nullptr) {
-            cout << "Searching appointment does not exist" << endl;
-            return nullptr;
+      void search_all(int key) {
+         if (root == nullptr) {
+            cout << "No appointments in system to search" << endl;
          }
-         else {
-            return result;
-         }
+         bool found = false;
+         search_all(root, key, found);
 
+         if (found != true) {
+            cout << "No appointment found with priority level: " << key << endl;
+         }
       }
 
 };
-
-
-
 #endif //HOSPITAL_APPOINTMENT_SYSTEM_BST_H
