@@ -27,11 +27,11 @@ int main() {
 
         switch (choice) {
             case 1: {
-                cout << "Please Enter your file name: " << endl;
                 cout << "\n!!!!!!! BE CAREFULL !!!!!!!" << endl;
                 cout << "1- YOUR FILE NEED TO HAVE .txt EXTENTION           " << endl;
                 cout << "2- YOU NEED TO ENTER THE PRECISE NAME OF THE FILE IT IS CASE SENSITIVE" << endl;
                 cout << "3- YOUR FILE NEED TO BE SAVED IN THE SAME DIRECTORY OF THE .EXE FILE    " << endl;
+                cout << "Enter your file name (.txt): " << endl;
                 string file_text_name;
                 cin.ignore(10, '\n');
                 getline(cin, file_text_name);
