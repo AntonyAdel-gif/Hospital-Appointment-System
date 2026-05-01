@@ -66,8 +66,6 @@ int main() {
 
 
             case 4: {
-                //if (!hospital_appointment.isEmpty()){}
-                //else{}
                 cout << "Please enter the patient priority level for search " << endl;
                 int priority;
                 cin >> priority;
@@ -77,8 +75,6 @@ int main() {
 
 
             case 5:{
-                //if (!hospital_appointment.isEmpty()){}
-                //else{}
                 cout << "Please enter the patient priority level for canceling his/her appointment " << endl;
                 int priority;
                 cin >> priority;
@@ -87,8 +83,6 @@ int main() {
             }
 
             case 6: {
-                //if (!hospital_appointment.isEmpty()){}
-                //else{}
                 cout << "Please enter the priority level " << endl;
                 int priority;
                 cin >> priority;
@@ -97,8 +91,6 @@ int main() {
             }
 
             case 7: {
-                //if (!hospital_appointment.isEmpty()){}
-                //else{}
                 cout << "Please enter the priority level " << endl;
                 int priority;
                 cin >> priority;

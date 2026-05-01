@@ -192,9 +192,9 @@ class BST {
 
 
       void search_all(int key) {
-         /*if (root == nullptr) {
+         if (root == nullptr) {
             cout << "No appointments in system to search" << endl;
-         }*/
+         }
          bool found = false;
          search_all(root, key, found);
 
@@ -202,10 +202,5 @@ class BST {
             cout << "No appointment found with priority level: " << key << endl;
          }
       }
-
-      /*bool isEmpty() {
-         return root;
-      }*/
-
 };
 #endif //HOSPITAL_APPOINTMENT_SYSTEM_BST_H
